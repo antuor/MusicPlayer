@@ -15,7 +15,7 @@
         Width="900"
         ResizeMode="CanMinimize"
         KeyDown="HotKeys">
-    <Grid Background="{DynamicResource WindowBackgroundBrush}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
             <RowDefinition Height="50" />
@@ -136,6 +136,7 @@
                 ValueChanged="Slider_ValueChanged"/>
         <svl:SpectrumAnalyzer 
             x:Name="spectrumAnalyzer" 
+            BarCount="1"
             Grid.Column="2" 
             Grid.Row="2"/>
     </Grid>

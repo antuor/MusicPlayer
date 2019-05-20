@@ -93,11 +93,14 @@ namespace MusicPlayer
                                 albumArtworkMemStream.Close();
                             }
                         }
+
+                        //string[] allFoundFiles = Directory.GetFiles(file.Name, ".jpg", SearchOption.AllDirectories);
+
                         else
                         {
                             albumArtPanel.AlbumArtImage = null;
                         }
-
+                        
                         if (file.Tag.Title != null)
                         {
                             SongTitle.Content = file.Tag.Title;

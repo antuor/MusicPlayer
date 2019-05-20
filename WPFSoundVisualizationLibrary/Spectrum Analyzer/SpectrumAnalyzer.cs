@@ -22,6 +22,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -1026,6 +1027,12 @@ namespace WPFSoundVisualizationLib
                     if (AveragePeaks && barIndex > 0)
                         barHeight = (lastPeakHeight + barHeight) / 2;
 
+                    //if (barIndexMax)
+                    barHeight = height;
+                    Byte rCanal = (byte)fftBucketHeight;
+                    Byte gCanal = (byte)(height - fftBucketHeight);
+                    Byte bCanal = (byte)(height - fftBucketHeight);
+                    Application.Current.Resources["Brush"] = Color.FromRgb(rCanal, gCanal, bCanal);
                     peakYPos = barHeight;
 
                     if (channelPeakData[barIndex] < peakYPos)
