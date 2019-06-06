@@ -1029,10 +1029,10 @@ namespace WPFSoundVisualizationLib
 
                     //if (barIndexMax)
                     barHeight = height;
-                    Byte rCanal = (byte)fftBucketHeight;
-                    Byte gCanal = (byte)(height - fftBucketHeight);
-                    Byte bCanal = (byte)(height - fftBucketHeight);
-                    Application.Current.Resources["Brush"] = Color.FromRgb(rCanal, gCanal, bCanal);
+                    Byte[] rCanal = BitConverter.GetBytes(fftBucketHeight);
+                    Byte[] gCanal = BitConverter.GetBytes(fftBucketHeight);//(byte)(fftBucketHeight * -1.0);
+                    Byte[] bCanal = BitConverter.GetBytes(fftBucketHeight);//(byte)(0);
+                    Application.Current.Resources["Brush"] = Color.FromRgb(rCanal[0], gCanal[1], bCanal[2]);
                     peakYPos = barHeight;
 
                     if (channelPeakData[barIndex] < peakYPos)
