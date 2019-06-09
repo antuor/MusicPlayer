@@ -15,19 +15,19 @@
         Width="900"
         ResizeMode="CanMinimize"
         KeyDown="HotKeys">
-    <Grid>
+    <Grid x:Name="grid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="50" />
-            <RowDefinition />
-            <RowDefinition Height="100" />
-            <RowDefinition Height="50" />
+            <RowDefinition x:Name="Row1" Height="25"/>
+            <RowDefinition x:Name="Row2" Height="50" />
+            <RowDefinition x:Name="Row3" Height="*"/>
+            <RowDefinition x:Name="Row4" Height="100" />
+            <RowDefinition x:Name="Row5" Height="50" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="0.6*" />
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="1*" />
+            <ColumnDefinition x:Name="Column1" Width="1*" />
+            <ColumnDefinition x:Name="Column2" Width="0.6*" />
+            <ColumnDefinition x:Name="Column3" Width="1*" />
+            <ColumnDefinition x:Name="Column4" Width="1*" />
         </Grid.ColumnDefinitions>
         
         <Menu Grid.Row="0"
@@ -58,9 +58,12 @@
                           Checked="ExpressionLightMenuItem_Checked" />
             </MenuItem>
             <MenuItem Header="Visualization">
-                <MenuItem Header="SpectrumAnalyzer"
-                          Name="SAMenuItem"
-                          Click="SAMenuItem_Click" />
+                <MenuItem Header="FullScreenOn"
+                          Name="FSMenuItem"
+                          Click="FullScreen_Click" />
+                <MenuItem Header="FullScreenOff"
+                          Name="SSMenuItem"
+                          Click="SSMenuItem_Click" />
             </MenuItem>
         </Menu>
 
@@ -137,7 +140,9 @@
         <svl:SpectrumAnalyzer 
             x:Name="spectrumAnalyzer" 
             BarCount="1"
+            BarSpacing="1"
+            RefreshInterval="25"
             Grid.Column="2" 
-            Grid.Row="2"/>
+            Grid.Row="2" FFTComplexity="FFT16384"/>
     </Grid>
 </Window>

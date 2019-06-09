@@ -217,7 +217,6 @@ namespace MusicPlayer
                 FileStream saveFile = new FileStream(SavePlaylistPath, FileMode.Create);
                 StreamWriter sw = new StreamWriter(saveFile);
                 sw.WriteLine(song_index.ToString());
-                //foreach (string path in allPaths)
                 for (int i = 1; i < allPaths.Length; i++)
                 {
                     sw.WriteLine(allPaths[i]);
@@ -361,12 +360,40 @@ namespace MusicPlayer
             Close();
         }
 
-        private void SAMenuItem_Click(object sender, RoutedEventArgs e)
+        private void FullScreen_Click(object sender, RoutedEventArgs e)
         {
-            //SpectrAnalysWindow spectrWindow = new SpectrAnalysWindow();
-            //spectrWindow.Owner = this;
-            //spectrWindow.Show();
-            //spectrWindow.LoadExpressionDarkTheme();
+            Grid.SetColumn(grid.Children[grid.Children.Count - 1], 0);
+            Grid.SetRow(grid.Children[grid.Children.Count - 1], 1);
+            Row2.Height = new GridLength(1, GridUnitType.Star);
+            Row3.Height = new GridLength(0);
+            Row4.Height = new GridLength(0);
+            Row5.Height = new GridLength(0);
+
+            Column2.Width = new GridLength(0);
+            Column3.Width = new GridLength(0);
+            Column4.Width = new GridLength(0);
+            for (int i = 1; i < grid.Children.Count - 1; i++)
+            {
+                grid.Children[i].Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void SSMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Grid.SetColumn(grid.Children[grid.Children.Count - 1], 2);
+            Grid.SetRow(grid.Children[grid.Children.Count - 1], 2);
+            Row2.Height = new GridLength(50);
+            Row3.Height = new GridLength(1, GridUnitType.Star);
+            Row4.Height = new GridLength(100);
+            Row5.Height = new GridLength(50);
+
+            Column2.Width = new GridLength(0.6, GridUnitType.Star);
+            Column3.Width = new GridLength(1, GridUnitType.Star);
+            Column4.Width = new GridLength(1, GridUnitType.Star);
+            for (int i = 1; i < grid.Children.Count - 1; i++)
+            {
+                grid.Children[i].Visibility = Visibility.Visible;
+            }
         }
 
         private void Playlist_DoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)

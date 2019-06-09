@@ -984,6 +984,7 @@ namespace WPFSoundVisualizationLib
             double peakYPos = 0f;
             double height = spectrumCanvas.RenderSize.Height;
             int barIndex = 0;
+            double dbValue = 0;
             double peakDotHeight = Math.Max(barWidth / 2.0f, 1);
             double barHeightScale = (height - peakDotHeight);
 
@@ -999,8 +1000,8 @@ namespace WPFSoundVisualizationLib
                     switch (BarHeightScaling)
                     {
                         case BarHeightScalingStyles.Decibel:
-                            double dbValue = 20 * Math.Log10((double)channelData[i]);
-                            fftBucketHeight = ((dbValue - minDBValue) / dbScale) * barHeightScale;
+                            dbValue = 20 * Math.Log10((double)channelData[i]);
+                            fftBucketHeight = ((dbValue - minDBValue) / dbScale) * 100.0;
                             break;
                         case BarHeightScalingStyles.Linear:
                             fftBucketHeight = (channelData[i] * scaleFactorLinear) * barHeightScale;
@@ -1026,20 +1027,52 @@ namespace WPFSoundVisualizationLib
 
                     if (AveragePeaks && barIndex > 0)
                         barHeight = (lastPeakHeight + barHeight) / 2;
-
-                    //if (barIndexMax)
+                    
                     barHeight = height;
-                    Byte[] rCanal = BitConverter.GetBytes(fftBucketHeight);
-                    Byte[] gCanal = BitConverter.GetBytes(fftBucketHeight);//(byte)(fftBucketHeight * -1.0);
-                    Byte[] bCanal = BitConverter.GetBytes(fftBucketHeight);//(byte)(0);
-                    Application.Current.Resources["Brush"] = Color.FromRgb(rCanal[0], gCanal[1], bCanal[2]);
+
+                    if (fftBucketHeight > 20)
+                    {
+                        Application.Current.Resources["Brush"] = Colors.Violet;
+                    }
+                    else if (fftBucketHeight > 15)
+                    {
+                        Application.Current.Resources["Brush"] = Colors.Purple;
+                    }
+                    else if (fftBucketHeight > 10)
+                    {
+                        Application.Current.Resources["Brush"] = Colors.Red;
+                    }
+                    else if (fftBucketHeight > 5)
+                    {
+                        Application.Current.Resources["Brush"] = Colors.OrangeRed;
+                    }
+                    else if (fftBucketHeight > 0)
+                    {
+                        Application.Current.Resources["Brush"] = Colors.Orange;
+                    }
+                    else if (fftBucketHeight > - 10)
+                    {
+                        Application.Current.Resources["Brush"] = Colors.Yellow;
+                    }
+                    else if (fftBucketHeight > -20)
+                    {
+                        Application.Current.Resources["Brush"] = Colors.YellowGreen;
+                    }
+                    else if (fftBucketHeight > -40)
+                    {
+                        Application.Current.Resources["Brush"] = Colors.GreenYellow;
+                    }
+                    else
+                    {
+                        Application.Current.Resources["Brush"] = Colors.WhiteSmoke;
+                    }
+                    
                     peakYPos = barHeight;
 
                     if (channelPeakData[barIndex] < peakYPos)
                         channelPeakData[barIndex] = (float)peakYPos;
                     else
                         channelPeakData[barIndex] = (float)(peakYPos + (PeakFallDelay * channelPeakData[barIndex])) / ((float)(PeakFallDelay + 1));
-
                     double xCoord = BarSpacing + (barWidth * barIndex) + (BarSpacing * barIndex) + 1;
 
                     barShapes[barIndex].Margin = new Thickness(xCoord, (height - 1) - barHeight, 0, 0);
@@ -1109,7 +1142,7 @@ namespace WPFSoundVisualizationLib
                 {
                     Margin = new Thickness(xCoord, height, 0, 0),
                     Width = barWidth,
-                    Height = 0,
+                    Height = height,
                     Style = BarStyle
                 };
                 barShapes.Add(barRectangle);
@@ -1125,8 +1158,8 @@ namespace WPFSoundVisualizationLib
 
             foreach (Shape shape in barShapes)
                 spectrumCanvas.Children.Add(shape);
-            foreach (Shape shape in peakShapes)
-                spectrumCanvas.Children.Add(shape);
+            //foreach (Shape shape in peakShapes)
+                //spectrumCanvas.Children.Add(shape);
 
             ActualBarWidth = barWidth;
         }
